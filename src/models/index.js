@@ -14,10 +14,14 @@ export const initModels = async () => {
 
   const { sequelize, models } = await initSequelize();
 
-  // ✅ mutate the exported object (don’t reassign)
+  // ✅ mutate the live export object
   Object.assign(db, models, { sequelize, initialized: true });
 
-  logger.info('✅ Models initialized and ready.');
+  // Freeze top-level structure for safety
+  Object.freeze(db);
+  Object.freeze(db.sequelize);
+
+  logger.info(`✅ Models initialized: ${Object.keys(models).join(', ')}`);
   return db;
 };
 
