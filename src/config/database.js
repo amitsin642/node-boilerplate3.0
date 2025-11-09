@@ -68,17 +68,4 @@ export const closeDB = async () => {
   }
 };
 
-// Handle process termination events
-process.on('SIGINT', async () => {
-  logger.info('🔻 SIGINT received. Closing DB connection...');
-  await closeDB();
-  process.exit(0);
-});
-
-process.on('SIGTERM', async () => {
-  logger.info('🔻 SIGTERM received. Closing DB connection...');
-  await closeDB();
-  process.exit(0);
-});
-
 export default sequelize;
