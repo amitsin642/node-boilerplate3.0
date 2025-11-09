@@ -7,17 +7,27 @@ import initLoaders from './loaders/index.js';
  * This function does not start the server — that's handled by server.js.
  */
 export default async function createApp() {
-  try {
-    logger.info(`🚀 Starting ${config.appName} in ${config.env.toUpperCase()} mode...`);
+  logger.info(`🚀 Starting ${config.appName} in ${config.env.toUpperCase()} mode...`);
+  const startTime = Date.now();
 
+  try {
     // Initialize all core loaders: DB, Redis, Express, etc.
     const { app } = await initLoaders();
 
-    logger.info('✅ Application initialized successfully.');
+    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+    logger.info(`✅ Application initialized successfully in ${duration}s.`);
+
+    logger.info(`📦 App Name: ${config.appName}`);
+    logger.info(`🌍 Environment: ${config.env}`);
+    logger.info(`⚙️ Node.js Version: ${process.version}`);
+
     return app;
   } catch (err) {
-    logger.error('❌ Application failed to start:', err.message);
-    logger.debug(err.stack);
-    process.exit(1);
+    logger.error(`❌ Application failed to start: ${err.message}`, {
+      stack: err.stack,
+      env: config.env,
+      app: config.appName,
+    });
+    throw err; // let server.js handle exit
   }
 }
