@@ -10,7 +10,7 @@ export const createUserSchema = {
 
 export const updateUserSchema = {
   params: Joi.object({
-    id: Joi.number().integer().positive().required(),
+    id: Joi.string().required(),
   }),
   body: Joi.object({
     name: Joi.string().min(3).max(50).optional(),

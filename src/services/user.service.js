@@ -1,4 +1,5 @@
 import db from '../models/index.js';
+import { getCache, setCache, flushNamespace, delCache } from '../services/cache.service.js';
 import AppError from '../utils/AppError.js';
 
 /**
@@ -18,10 +19,20 @@ export const getAllUsers = async () => {
  * Fetch a user by ID
  */
 export const getUserById = async (id) => {
+  const cacheKey = `user:${id}`;
+
+  // Try from cache first
+  const cached = await getCache(cacheKey, { namespace: 'users' });
+  if (cached) return cached;
+
+  // Fallback to DB
   const user = await db.User.findOne({
     where: { id, deleted_at: null },
     attributes: { exclude: ['password'] },
   });
+  if (user) {
+    await setCache(cacheKey, user, { ttl: 300, namespace: 'users' }); // cache 5 mins
+  }
   return user;
 };
 
@@ -47,6 +58,11 @@ export const updateUser = async (id, data) => {
 
   await user.update(data);
   const { ...updatedUser } = user.get({ plain: true });
+
+  // 🧹 Invalidate caches
+  await delCache(`user:${id}`, { namespace: 'users' });
+  await flushNamespace('users:list');
+
   return updatedUser;
 };
 
