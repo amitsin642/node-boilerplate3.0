@@ -1,3 +1,4 @@
+// src/config/database.js
 import { Sequelize } from 'sequelize';
 import config from './config.js';
 import logger from '../utils/logger.utils.js';
@@ -5,6 +6,7 @@ import logger from '../utils/logger.utils.js';
 const {
   db: {
     client,
+    url,
     host,
     port,
     user,
@@ -14,47 +16,46 @@ const {
   },
 } = config;
 
-// Initialize Sequelize with credentials
-const sequelize = new Sequelize(database, user, password, {
-  host,
-  port,
+const commonOptions = {
   dialect: client,
-  logging: (msg) => logger.debug(`[Sequelize] ${msg}`),
-  pool: {
-    max,
-    min,
-    idle,
-    acquire: 30000,
-    evict: 10000,
-  },
+  logging: config.isProduction ? false : (msg) => logger.debug(`[Sequelize] ${msg}`),
+  pool: { max, min, idle, acquire: 30000, evict: 10000 },
   define: {
-    underscored: true, // snake_case columns
-    freezeTableName: true, // don't pluralize table names
-    timestamps: true, // automatically manage createdAt / updatedAt
+    underscored: true,
+    freezeTableName: true,
+    timestamps: true,
   },
   dialectOptions:
     client === 'mysql'
-      ? {
-          connectTimeout: 10000,
-        }
+      ? { connectTimeout: 10000 }
       : client === 'postgres'
       ? {
           statement_timeout: 10000,
           idle_in_transaction_session_timeout: 10000,
         }
       : {},
-});
+};
 
-// Connect and verify connection
-export const connectDB = async () => {
-  try {
-    logger.info('⏳ Connecting to database...');
-    await sequelize.authenticate();
-    logger.info(`✅ Database connection established (${client})`);
-  } catch (err) {
-    logger.error(`❌ Database connection failed: ${err.message}`);
-    logger.debug(err.stack);
-    process.exit(1);
+const sequelize = url
+  ? new Sequelize(url, commonOptions)
+  : new Sequelize(database, user, password, { host, port, ...commonOptions });
+
+// Retry-aware DB connection
+export const connectDB = async (retries = 5, delay = 5000) => {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      logger.info(`⏳ Connecting to database (attempt ${attempt}/${retries})...`);
+      await sequelize.authenticate();
+      logger.info(`✅ Database connection established (${client})`);
+      return;
+    } catch (err) {
+      logger.error(`❌ DB connection attempt ${attempt} failed: ${err.message}`);
+      if (attempt === retries) {
+        logger.error('❌ All DB connection attempts failed. Exiting.');
+        process.exit(1);
+      }
+      await new Promise((res) => setTimeout(res, delay));
+    }
   }
 };
 
