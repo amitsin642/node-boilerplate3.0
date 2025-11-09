@@ -1,0 +1,105 @@
+# ───────────────────────────────
+# Node.js dependencies
+# ───────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ───────────────────────────────
+# Environment variables
+# ───────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ───────────────────────────────
+# Logs
+# ───────────────────────────────
+logs/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ───────────────────────────────
+# Runtime data
+# ───────────────────────────────
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ───────────────────────────────
+# Build outputs
+# ───────────────────────────────
+dist/
+build/
+coverage/
+.tmp/
+.temp/
+.cache/
+.next/
+out/
+
+# ───────────────────────────────
+# TypeScript (if applicable)
+# ───────────────────────────────
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ───────────────────────────────
+# OS-specific files
+# ───────────────────────────────
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ───────────────────────────────
+# IDE / Editor folders
+# ───────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ───────────────────────────────
+# Docker
+# ───────────────────────────────
+docker-data/
+*.tar
+*.img
+
+# ───────────────────────────────
+# Redis dump / database files
+# ───────────────────────────────
+dump.rdb
+appendonly.aof
+
+# ───────────────────────────────
+# Sequelize / ORM
+# ───────────────────────────────
+migrations/*.js.map
+seeders/*.js.map
+
+# ───────────────────────────────
+# Misc
+# ───────────────────────────────
+coverage-final.json
+.nyc_output/
+.eslintcache
+.prettiercache
+package-lock.json
+yarn.lock
+
+# ───────────────────────────────
+# Local test artifacts
+# ───────────────────────────────
+test-results/
+local-data/
+tmp/
+uploads/
