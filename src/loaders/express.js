@@ -1,7 +1,6 @@
 import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
-import { rateLimit } from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
@@ -9,6 +8,7 @@ import config from '../config/config.js';
 import { errorHandler, notFoundHandler } from '../middleware/errorHandler.middleware.js';
 import routes from '../routes/index.js';
 import logger from '../utils/logger.utils.js';
+import rateLimitMiddleware from '../middleware/rateLimit.middleware.js';
 
 export default async function createExpressApp() {
   const app = express();
@@ -50,19 +50,14 @@ export default async function createExpressApp() {
   /**
    * ⚙️ Rate Limiter
    */
-  const limiter = rateLimit({
-    windowMs: config.rateLimit.windowMs,
-    max: config.rateLimit.max,
-    standardHeaders: true,
-    legacyHeaders: false,
-    handler: (req, res) => {
-      res.status(429).json({
-        success: false,
-        message: 'Too many requests. Please try again later.',
-      });
-    },
-  });
-  app.use('/api', limiter);
+  app.use(
+    '/api',
+    rateLimitMiddleware({
+      window: 60, // 1 minute
+      max: 50, // 50 requests per minute
+      namespace: 'api_rate',
+    })
+  );
 
   /**
    * 🩺 Base health check (no auth)
