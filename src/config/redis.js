@@ -1,49 +1,78 @@
 import { createClient } from 'redis';
-
 import config from './config.js';
 import logger from '../utils/logger.utils.js';
 
 let redisClient = null;
 
+/**
+ * Connect to Redis
+ */
 export const connectRedis = async () => {
+  const { redis } = config;
+
+  if (!redis?.host && !redis?.url) {
+    logger.warn('⚠️ Redis config missing. Skipping Redis connection.');
+    return null;
+  }
+
   try {
-    const { redis } = config;
-    const options = {
-      socket: {
-        host: redis.host,
-        port: redis.port || 6379,
-        reconnectStrategy: (retries) => {
-          const delay = Math.min(retries * 100, 3000);
-          logger.warn(`⚠️ Redis reconnect attempt #${retries}, retrying in ${delay}ms...`);
-          return delay;
-        },
-      },
-    };
+    const options = redis.url
+      ? { url: redis.url }
+      : {
+          socket: {
+            host: redis.host,
+            port: redis.port || 6379,
+            reconnectStrategy: (retries) => {
+              const delay = Math.min(100 * retries, 3000);
+              logger.warn(`♻️ Redis reconnect attempt #${retries} — retrying in ${delay}ms...`);
+              return delay;
+            },
+          },
+          password: redis.password || undefined,
+        };
 
-    if (redis.password) options.password = redis.password;
-
-    logger.info(`⏳ Connecting to Redis at ${redis.host}:${redis.port || 6379}...`);
     redisClient = createClient(options);
 
+    /**
+     * 🔊 Event Listeners
+     */
     redisClient.on('connect', () => logger.info('✅ Redis connection established.'));
     redisClient.on('ready', () => logger.info('🚀 Redis client ready for commands.'));
     redisClient.on('end', () => logger.warn('🔌 Redis connection closed.'));
+    redisClient.on('reconnecting', () => logger.warn('♻️ Redis reconnecting...'));
     redisClient.on('error', (err) => logger.error(`❌ Redis error: ${err.message}`));
 
+    logger.info(
+      redis.url
+        ? `⏳ Connecting to Redis via URL...`
+        : `⏳ Connecting to Redis at ${redis.host}:${redis.port || 6379}...`
+    );
+
     await redisClient.connect();
-    logger.info('✅ Redis loader initialized successfully.');
+
+    logger.info('✅ Redis connected and operational.');
+    return redisClient;
   } catch (err) {
     logger.error(`❌ Failed to connect to Redis: ${err.message}`);
     logger.debug(err.stack);
-    process.exit(1);
+    process.exitCode = 1; // Use exitCode instead of exit() (ESLint-safe)
+    return null;
   }
 };
 
 /**
- * Return current Redis client instance
+ * Get Redis client safely
  */
-export const getRedisClient = () => redisClient;
+export const getRedisClient = () => {
+  if (!redisClient || !redisClient.isOpen) {
+    throw new Error('❌ Redis client not connected');
+  }
+  return redisClient;
+};
 
+/**
+ * Close Redis connection gracefully
+ */
 export const closeRedis = async () => {
   if (redisClient && redisClient.isOpen) {
     await redisClient.quit();
@@ -51,4 +80,8 @@ export const closeRedis = async () => {
   }
 };
 
-export default { connectRedis, getRedisClient, closeRedis };
+export default {
+  connectRedis,
+  getRedisClient,
+  closeRedis,
+};

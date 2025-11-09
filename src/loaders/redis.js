@@ -8,6 +8,6 @@ export default async function initRedis() {
     logger.info('✅ Redis loader initialized successfully.');
   } catch (err) {
     logger.error(`❌ Redis loader initialization failed: ${err.message}`);
-    throw err; // Let higher-level loader or server handle the failure
+    throw err; // allow upper-level loader to handle it
   }
 }
