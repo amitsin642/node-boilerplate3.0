@@ -7,7 +7,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load .env from project root (if present). In production, env is expected to be set externally.
-dotenv.config({ path: path.join(process.cwd(), '.env') });
+dotenv.config({
+  path: path.join(process.cwd(), `.env.${process.env.NODE_ENV || 'development'}`),
+});
 
 // Helper parsers
 const toInt = (v, fallback) => {
@@ -15,11 +17,8 @@ const toInt = (v, fallback) => {
   const n = Number.parseInt(v, 10);
   return Number.isNaN(n) ? fallback : n;
 };
-const toBool = (v, fallback = false) => {
-  if (v === undefined || v === null) return fallback;
-  if (typeof v === 'boolean') return v;
-  return ['1', 'true', 'yes', 'on'].includes(String(v).toLowerCase());
-};
+
+const normalizeUrl = (url) => (url ? url.trim().replace(/\/+$/, '') : null);
 
 // Joi schema for env validation
 const envSchema = Joi.object({
@@ -43,7 +42,7 @@ const envSchema = Joi.object({
   DB_POOL_IDLE: Joi.number().integer().default(10000),
 
   // JWT / Auth
-  JWT_SECRET: Joi.string().min(16).required(),
+  JWT_SECRET: Joi.string().min(16).required().disallow(''),
   JWT_ACCESS_EXP: Joi.string().default('15m'),
   JWT_REFRESH_EXP: Joi.string().default('7d'),
   SALT_ROUNDS: Joi.number().integer().default(12),
@@ -107,11 +106,12 @@ const dbConfig = {
 // Build final config object
 const config = {
   env: envVars.NODE_ENV,
+  isDev: envVars.NODE_ENV === 'development',
   isProduction: envVars.NODE_ENV === 'production',
   isTest: envVars.NODE_ENV === 'test',
   port: toInt(envVars.PORT, 3000),
   appName: envVars.APP_NAME,
-  appUrl: envVars.APP_URL || null,
+  appUrl: normalizeUrl(envVars.APP_URL),
   rootDir: path.resolve(__dirname, '..'),
   // db
   db: dbConfig,
@@ -126,7 +126,7 @@ const config = {
 
   // redis
   redis: {
-    url: envVars.REDIS_URL || null,
+    url: normalizeUrl(envVars.REDIS_URL) || null,
     host: envVars.REDIS_HOST || null,
     port: envVars.REDIS_PORT ? toInt(envVars.REDIS_PORT) : undefined,
     password: envVars.REDIS_PASSWORD || null,
