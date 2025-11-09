@@ -10,7 +10,7 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 
 export const getUserById = asyncHandler(async (req, res) => {
   const user = await userService.getUserById(req.params.id);
-  if (!user) throw new AppError('User not found', 404);
+  if (!user) throw new AppError('User not found', 404, { id: 101 }, 'USER_NOT_FOUND');
   return responses.successResponse(res, 'User fetched successfully', user);
 });
 
