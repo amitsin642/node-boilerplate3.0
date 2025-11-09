@@ -13,8 +13,11 @@ export default async function initLoaders() {
     // 1️⃣ Initialize Sequelize (DB + Models)
     await initModels();
     const db = getDB(); // confirm initialized
-    logger.info(`✅ Models loaded: ${Object.keys(db).filter(k => k !== 'sequelize').join(', ')}`);
-
+    logger.info(
+      `✅ Models loaded: ${Object.keys(db)
+        .filter((k) => k !== 'sequelize')
+        .join(', ')}`
+    );
 
     // 2️⃣ Initialize Redis connection
     await initRedis();

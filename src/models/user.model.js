@@ -1,11 +1,11 @@
-import { DataTypes, UUIDV4 } from "sequelize";
+import { DataTypes, UUIDV4 } from 'sequelize';
 
 export default (sequelize) => {
   const User = sequelize.define(
-    "User",
+    'User',
     {
       id: {
-        type: DataTypes.UUID, 
+        type: DataTypes.UUID,
         defaultValue: UUIDV4,
         allowNull: false,
         primaryKey: true,
@@ -50,7 +50,7 @@ export default (sequelize) => {
         type: DataTypes.TINYINT,
         allowNull: false,
         defaultValue: 1,
-        comment: "1=Active, 0=Inactive",
+        comment: '1=Active, 0=Inactive',
       },
 
       // Audit Fields
@@ -68,13 +68,13 @@ export default (sequelize) => {
       },
     },
     {
-      tableName: "users",
+      tableName: 'users',
       timestamps: true, // createdAt + updatedAt
-      paranoid: true,   // enables soft delete via deletedAt
-      createdAt: "created_at",
-      updatedAt: "updated_at",
-      deletedAt: "deleted_at",
-      underscored: true
+      paranoid: true, // enables soft delete via deletedAt
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
+      deletedAt: 'deleted_at',
+      underscored: true,
     }
   );
 

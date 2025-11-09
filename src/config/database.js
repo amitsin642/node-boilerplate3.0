@@ -1,5 +1,5 @@
-// src/config/database.js
 import { Sequelize } from 'sequelize';
+
 import config from './config.js';
 import logger from '../utils/logger.utils.js';
 
@@ -29,11 +29,11 @@ const commonOptions = {
     client === 'mysql'
       ? { connectTimeout: 10000 }
       : client === 'postgres'
-      ? {
-          statement_timeout: 10000,
-          idle_in_transaction_session_timeout: 10000,
-        }
-      : {},
+        ? {
+            statement_timeout: 10000,
+            idle_in_transaction_session_timeout: 10000,
+          }
+        : {},
 };
 
 const sequelize = url

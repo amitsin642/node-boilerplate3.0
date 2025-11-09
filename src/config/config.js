@@ -22,7 +22,9 @@ const normalizeUrl = (url) => (url ? url.trim().replace(/\/+$/, '') : null);
 
 // Joi schema for env validation
 const envSchema = Joi.object({
-  NODE_ENV: Joi.string().valid('development', 'test', 'staging', 'production').default('development'),
+  NODE_ENV: Joi.string()
+    .valid('development', 'test', 'staging', 'production')
+    .default('development'),
   PORT: Joi.number().integer().min(1).max(65535).default(3000),
 
   // App
@@ -61,11 +63,15 @@ const envSchema = Joi.object({
   EMAIL_FROM: Joi.string().email().allow('', null),
 
   // Logging / Sentry
-  LOG_LEVEL: Joi.string().valid('error', 'warn', 'info', 'verbose', 'debug', 'silly').default('info'),
+  LOG_LEVEL: Joi.string()
+    .valid('error', 'warn', 'info', 'verbose', 'debug', 'silly')
+    .default('info'),
   SENTRY_DSN: Joi.string().allow('', null),
 
   // Rate limiting
-  RATE_LIMIT_WINDOW_MS: Joi.number().integer().default(15 * 60 * 1000), // 15 minutes
+  RATE_LIMIT_WINDOW_MS: Joi.number()
+    .integer()
+    .default(15 * 60 * 1000), // 15 minutes
   RATE_LIMIT_MAX: Joi.number().integer().default(100),
 
   // CORS
@@ -74,16 +80,19 @@ const envSchema = Joi.object({
   // Feature flags / misc
   ENABLE_SWAGGER: Joi.boolean().default(false),
   TRUST_PROXY: Joi.boolean().default(false),
-
 }).unknown(true); // allow extra envs
 
 // Validate process.env against schema
-const { value: envVars, error } = envSchema.validate(process.env, { abortEarly: false, allowUnknown: true, stripUnknown: true });
+const { value: envVars, error } = envSchema.validate(process.env, {
+  abortEarly: false,
+  allowUnknown: true,
+  stripUnknown: true,
+});
 if (error) {
   // Fail fast — config should not be invalid in production
   // Keep message readable for logs
   // eslint-disable-next-line no-console
-  console.error('Config validation error:', error.details.map(d => d.message).join(', '));
+  console.error('Config validation error:', error.details.map((d) => d.message).join(', '));
   throw new Error('Invalid environment variables. See logs for details.');
 }
 

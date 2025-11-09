@@ -34,7 +34,7 @@ export const createUser = async (data) => {
   if (existing) throw new AppError('Email already exists', 409);
 
   const user = await db.User.create(data);
-  const { password, ...safeUser } = user.get({ plain: true });
+  const { ...safeUser } = user.get({ plain: true });
   return safeUser;
 };
 
@@ -46,7 +46,7 @@ export const updateUser = async (id, data) => {
   if (!user) return null;
 
   await user.update(data);
-  const { password, ...updatedUser } = user.get({ plain: true });
+  const { ...updatedUser } = user.get({ plain: true });
   return updatedUser;
 };
 

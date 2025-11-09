@@ -1,10 +1,11 @@
 // src/server.js
+import process from 'process';
+
 import createApp from './app.js';
 import config from './config/config.js';
 import logger from './utils/logger.utils.js';
 import { closeDB } from './config/database.js';
 import { closeRedis } from './config/redis.js';
-import process from 'process';
 
 let server;
 
@@ -55,7 +56,7 @@ const startServer = async () => {
     });
 
     // 🧠 Global unhandled promise rejection handler
-    process.on('unhandledRejection', async (reason, promise) => {
+    process.on('unhandledRejection', async (reason) => {
       logger.error('💥 Unhandled Promise Rejection', {
         reason,
         stack: reason?.stack,

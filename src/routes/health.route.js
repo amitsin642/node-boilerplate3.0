@@ -1,4 +1,5 @@
 import express from 'express';
+
 import config from '../config/config.js';
 import sequelize from '../config/database.js';
 import { getRedisClient } from '../config/redis.js';

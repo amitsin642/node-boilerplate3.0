@@ -1,4 +1,5 @@
 import express from 'express';
+
 import healthRoutes from './health.route.js';
 import userRoutes from './user.route.js';
 import logger from '../utils/logger.utils.js';

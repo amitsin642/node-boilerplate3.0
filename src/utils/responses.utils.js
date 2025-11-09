@@ -42,8 +42,7 @@ export const errorResponse = (
 
   // Include stack only in non-production
   if (error && process.env.NODE_ENV !== 'production') {
-    response.error =
-      typeof error === 'object' ? error.message || JSON.stringify(error) : error;
+    response.error = typeof error === 'object' ? error.message || JSON.stringify(error) : error;
   }
 
   return res.status(statusCode).json(response);

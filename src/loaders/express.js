@@ -4,6 +4,7 @@ import cors from 'cors';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
+
 import config from '../config/config.js';
 import logger from '../utils/logger.utils.js';
 import routes from '../routes/index.js';

@@ -13,7 +13,7 @@ export const notFoundHandler = (req, res) => {
 /**
  * Centralized Express error handler
  */
-export const errorHandler = (err, req, res, next) => {
+export const errorHandler = (err, req, res) => {
   if (!(err instanceof Error)) err = new Error(String(err));
 
   let statusCode = err.statusCode || 500;
