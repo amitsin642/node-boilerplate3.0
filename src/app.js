@@ -1,6 +1,6 @@
 import config from './config/config.js';
-import logger from './utils/logger.utils.js';
 import initLoaders from './loaders/index.js';
+import logger from './utils/logger.utils.js';
 
 /**
  * Initializes and returns the Express app with all dependencies.

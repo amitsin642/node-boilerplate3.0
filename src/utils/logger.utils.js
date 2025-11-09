@@ -1,8 +1,8 @@
-// src/utils/logger.js
+import fs from 'fs';
+import path from 'path';
+
 import winston from 'winston';
 import 'winston-daily-rotate-file';
-import path from 'path';
-import fs from 'fs';
 
 import config from '../config/config.js';
 

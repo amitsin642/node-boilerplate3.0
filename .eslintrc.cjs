@@ -25,14 +25,21 @@ module.exports = {
     'prefer-const': 'warn',
     'object-shorthand': ['warn', 'always'],
     'prefer-template': 'warn',
+    'promise/no-callback-in-promise': 'off',
 
     // ✅ Import rules
     'import/no-unresolved': 'error',
     'import/order': [
       'warn',
       {
-        groups: [['builtin', 'external'], ['internal'], ['parent', 'sibling', 'index']],
+        groups: [
+          ['builtin'], // Node built-ins like fs, path, url
+          ['external'], // npm packages
+          ['internal'], // your own modules
+          ['parent', 'sibling', 'index'],
+        ],
         'newlines-between': 'always',
+        alphabetize: { order: 'asc', caseInsensitive: true },
       },
     ],
 
@@ -62,6 +69,12 @@ module.exports = {
     {
       files: ['**/*.test.js', '**/*.spec.js'],
       env: { jest: true },
+    },
+    {
+      files: ['src/server.js', 'src/config/**/*.js', 'src/loaders/**/*.js'],
+      rules: {
+        'no-process-exit': 'off', // allow only in boot/load files
+      },
     },
   ],
 };

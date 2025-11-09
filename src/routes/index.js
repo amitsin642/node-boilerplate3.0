@@ -1,7 +1,9 @@
-import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+import express from 'express';
+
 import logger from '../utils/logger.utils.js';
 
 const router = express.Router();

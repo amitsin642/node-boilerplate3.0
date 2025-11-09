@@ -1,8 +1,8 @@
 import express from 'express';
 
+import * as userController from '../controllers/user.controller.js';
 import { asyncHandler } from '../middleware/asyncHandler.middleware.js';
 import { validate } from '../middleware/validate.middleware.js';
-import * as userController from '../controllers/user.controller.js';
 import * as userValidation from '../validations/user.validation.js';
 
 const router = express.Router();

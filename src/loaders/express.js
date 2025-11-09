@@ -1,14 +1,14 @@
-import express from 'express';
-import helmet from 'helmet';
-import cors from 'cors';
 import compression from 'compression';
-import rateLimit from 'express-rate-limit';
+import cors from 'cors';
+import express from 'express';
+import { rateLimit } from 'express-rate-limit';
+import helmet from 'helmet';
 import morgan from 'morgan';
 
 import config from '../config/config.js';
-import logger from '../utils/logger.utils.js';
-import routes from '../routes/index.js';
 import { errorHandler, notFoundHandler } from '../middleware/errorHandler.middleware.js';
+import routes from '../routes/index.js';
+import logger from '../utils/logger.utils.js';
 
 export default async function createExpressApp() {
   const app = express();

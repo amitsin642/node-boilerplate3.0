@@ -1,7 +1,7 @@
-import * as responses from '../utils/responses.utils.js';
 import { asyncHandler } from '../middleware/asyncHandler.middleware.js';
-import AppError from '../utils/AppError.js';
 import * as userService from '../services/user.service.js';
+import AppError from '../utils/AppError.js';
+import * as responses from '../utils/responses.utils.js';
 
 export const getAllUsers = asyncHandler(async (req, res) => {
   const users = await userService.getAllUsers();

@@ -1,7 +1,7 @@
-import logger from '../utils/logger.utils.js';
-import { initModels, getDB } from '../models/index.js';
-import initRedis from './redis.js';
 import createExpressApp from './express.js';
+import initRedis from './redis.js';
+import { initModels, getDB } from '../models/index.js';
+import logger from '../utils/logger.utils.js';
 
 /**
  * Bootstraps all loaders and returns initialized components

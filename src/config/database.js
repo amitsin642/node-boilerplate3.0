@@ -54,7 +54,7 @@ export const connectDB = async (retries = 5, delay = 5000) => {
         logger.error('❌ All DB connection attempts failed. Exiting.');
         process.exit(1);
       }
-      await new Promise((res) => setTimeout(res, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 };

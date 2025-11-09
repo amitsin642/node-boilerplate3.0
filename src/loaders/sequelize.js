@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import sequelize, { connectDB } from '../config/database.js';
 import config from '../config/config.js';
+import sequelize, { connectDB } from '../config/database.js';
 import logger from '../utils/logger.utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
