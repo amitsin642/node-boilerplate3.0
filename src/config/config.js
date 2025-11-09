@@ -96,6 +96,7 @@ const dbConfig = {
   user: envVars.DB_USER || null,
   password: envVars.DB_PASSWORD || null,
   database: envVars.DB_NAME || null,
+  sync: envVars.DB_SYNC === 'true' || false,
   pool: {
     min: toInt(envVars.DB_POOL_MIN, 2),
     max: toInt(envVars.DB_POOL_MAX, 10),
