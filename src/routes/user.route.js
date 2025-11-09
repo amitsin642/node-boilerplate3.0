@@ -1,10 +1,3 @@
-// routes/user.route.js
-/**
- * User Routes
- * ------------
- * Handles user-related endpoints under /api/v1/users
- */
-
 import express from 'express';
 import { asyncHandler } from '../middleware/asyncHandler.middleware.js';
 import { validate } from '../middleware/validate.middleware.js';

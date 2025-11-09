@@ -1,4 +1,3 @@
-// validations/user.validation.js
 import Joi from 'joi';
 
 export const createUserSchema = {

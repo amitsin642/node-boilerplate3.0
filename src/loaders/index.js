@@ -1,15 +1,3 @@
-// loaders/index.js
-/**
- * Application Loaders Orchestrator
- * --------------------------------
- * Initializes and connects all core services:
- * - Database (Sequelize)
- * - Redis
- * - Express App
- *
- * Each loader handles its own setup and error handling.
- */
-
 import logger from '../utils/logger.utils.js';
 import { initModels, getDB } from '../models/index.js';
 import initRedis from './redis.js';

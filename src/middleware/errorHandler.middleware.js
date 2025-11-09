@@ -1,14 +1,3 @@
-// middlewares/errorHandler.middleware.js
-/**
- * Global Error Handler Middleware
- * -------------------------------
- * Handles all errors across the app in a uniform, production-safe way.
- *
- * - Supports operational errors via AppError
- * - Handles unknown/unexpected errors gracefully
- * - Avoids leaking stack traces in production
- */
-
 import logger from '../utils/logger.utils.js';
 
 /**

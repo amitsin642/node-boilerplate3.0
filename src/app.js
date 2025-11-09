@@ -1,12 +1,3 @@
-// app.js
-/**
- * Application Entry Loader
- * ------------------------
- * - Initializes core configurations and all loaders
- * - Returns a fully configured Express app instance
- * - Keeps boot logic isolated from server startup (for testing / scaling)
- */
-
 import config from './config/config.js';
 import logger from './utils/logger.utils.js';
 import initLoaders from './loaders/index.js';

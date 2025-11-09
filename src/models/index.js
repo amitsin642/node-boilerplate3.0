@@ -1,4 +1,3 @@
-// src/models/index.js
 import initSequelize from '../loaders/sequelize.js';
 import logger from '../utils/logger.utils.js';
 

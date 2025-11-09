@@ -1,4 +1,3 @@
-// src/utils/responses.utils.js
 import logger from './logger.utils.js';
 
 /**

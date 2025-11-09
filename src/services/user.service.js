@@ -1,11 +1,3 @@
-// services/user.service.js
-/**
- * User Service
- * -------------
- * Encapsulates business logic and database operations for users.
- * Controllers should never access Sequelize models directly.
- */
-
 import db from '../models/index.js';
 import AppError from '../utils/AppError.js';
 

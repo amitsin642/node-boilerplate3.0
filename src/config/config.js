@@ -1,15 +1,3 @@
-// config/config.js
-/**
- * Production-grade configuration loader
- * - Loads .env via dotenv
- * - Validates required variables using Joi
- * - Exports a single `config` object with parsed/typed values
- *
- * Usage:
- *   import config from '../config/config.js';
- *   console.log(config.env, config.port, config.db.url);
- */
-
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';

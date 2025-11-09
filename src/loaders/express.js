@@ -1,14 +1,3 @@
-// loaders/express.js
-/**
- * Production-grade Express app loader
- *
- * - Initializes core Express middleware (CORS, Helmet, Compression)
- * - Parses incoming requests safely
- * - Applies rate limiting & logging
- * - Registers routes
- * - Attaches centralized error handler
- */
-
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';

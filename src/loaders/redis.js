@@ -1,13 +1,3 @@
-// loaders/redis.js
-/**
- * Redis Loader
- * ------------
- * - Initializes Redis connection using config/redis.js
- * - Ensures connection is ready before proceeding
- * - Logs connection status
- * - Provides a clean way to plug into loader system
- */
-
 import { connectRedis } from '../config/redis.js';
 import logger from '../utils/logger.utils.js';
 

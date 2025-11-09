@@ -1,15 +1,3 @@
-// config/database.js
-/**
- * Production-grade Sequelize database configuration and initialization
- *
- * - Uses individual DB credentials (not URL)
- * - Creates a Sequelize instance with connection pooling
- * - Reads connection info from config/config.js
- * - Validates DB connection on startup
- * - Handles graceful shutdowns
- * - Exports the initialized Sequelize instance for app-wide use
- */
-
 import { Sequelize } from 'sequelize';
 import config from './config.js';
 import logger from '../utils/logger.utils.js';

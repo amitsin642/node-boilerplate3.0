@@ -1,21 +1,3 @@
-// middlewares/validate.middleware.js
-/**
- * Joi Validation Middleware
- * -------------------------
- * Validates request payloads (body, query, params, headers) using Joi schemas.
- *
- * - Integrates with global error handler
- * - Prevents invalid requests from reaching controllers
- * - Supports partial validation (validate only what you define)
- *
- * Usage:
- *   import { validate } from '../middlewares/validate.middleware.js';
- *   import { createUserSchema } from '../validations/user.validation.js';
- *
- *   router.post('/', validate(createUserSchema), userController.createUser);
- */
-
-import Joi from 'joi';
 import AppError from '../utils/AppError.js';
 
 export const validate = (schema) => {

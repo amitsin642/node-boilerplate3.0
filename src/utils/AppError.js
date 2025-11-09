@@ -1,17 +1,3 @@
-// utils/AppError.js
-/**
- * AppError Utility Class
- * ----------------------
- * A standardized error class for operational errors in production.
- *
- * - Helps distinguish between trusted (expected) and programming errors
- * - Works seamlessly with the global errorHandler middleware
- * - Can be safely thrown anywhere in controllers/services
- *
- * Example:
- *   throw new AppError('User not found', 404);
- */
-
 export default class AppError extends Error {
   constructor(message, statusCode = 500) {
     super(message);

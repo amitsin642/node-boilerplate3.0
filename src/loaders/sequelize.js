@@ -1,14 +1,3 @@
-// loaders/sequelize.js
-/**
- * Sequelize Loader
- * ----------------
- * - Dynamically imports all model files
- * - Initializes models with Sequelize instance
- * - Sets up associations (if defined)
- * - Verifies database connection
- * - Optionally syncs models (only in development)
- */
-
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
