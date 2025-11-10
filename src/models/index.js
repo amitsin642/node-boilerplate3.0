@@ -21,7 +21,7 @@ export const initModels = async () => {
   Object.freeze(db);
   Object.freeze(db.sequelize);
 
-  logger.info(`✅ Models initialized: ${Object.keys(models).join(', ')}`);
+  logger.debug(`✅ Models initialized: ${Object.keys(models).join(', ')}`);
   return db;
 };
 

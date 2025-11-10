@@ -27,7 +27,7 @@ const loadRoutes = async () => {
       const mountPath = `/${routeName}`;
       v1Router.use(mountPath, routeModule.default);
 
-      logger.info(`🧩 Mounted v1 route: ${mountPath}`);
+      logger.debug(`🧩 Mounted v1 route: ${mountPath}`);
     } catch (err) {
       logger.error(`❌ Failed to load route file: ${file} — ${err.message}`);
     }

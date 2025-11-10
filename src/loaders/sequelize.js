@@ -14,7 +14,7 @@ const models = {};
 
 export default async function initSequelize(customModelPath = null) {
   try {
-    logger.info('⚙️ Initializing Sequelize loader...');
+    logger.debug('⚙️ Initializing Sequelize loader...');
 
     // Prevent reinitialization
     if (Object.keys(models).length > 0) {
@@ -29,7 +29,7 @@ export default async function initSequelize(customModelPath = null) {
     const modelsDir = customModelPath || path.join(__dirname, '../models');
     const modelFiles = fs.readdirSync(modelsDir).filter((file) => file.endsWith('.model.js'));
 
-    logger.info(`🔍 Found ${modelFiles.length} model file(s).`);
+    logger.debug(`🔍 Found ${modelFiles.length} model file(s).`);
 
     // 3️⃣ Dynamically import and define models
     for (const file of modelFiles) {
@@ -45,7 +45,7 @@ export default async function initSequelize(customModelPath = null) {
       logger.debug(`📦 Loaded model: ${model.name}`);
     }
 
-    logger.info(`📊 Models loaded: ${Object.keys(models).join(', ') || 'None'}`);
+    logger.debug(`📊 Models loaded: ${Object.keys(models).join(', ') || 'None'}`);
 
     // 4️⃣ Setup associations
     const assocStart = Date.now();
@@ -62,8 +62,8 @@ export default async function initSequelize(customModelPath = null) {
 
     // 6️⃣ Post-initialization connection check
     await sequelize.authenticate();
-    logger.info('✅ Sequelize connection verified and initialized successfully.');
-    logger.info(`✅ Total models loaded: ${Object.keys(models).length}`);
+    logger.debug('✅ Sequelize connection verified and initialized successfully.');
+    logger.debug(`✅ Total models loaded: ${Object.keys(models).length}`);
 
     return { sequelize, models };
   } catch (err) {

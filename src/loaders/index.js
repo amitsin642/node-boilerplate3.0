@@ -7,13 +7,13 @@ import logger from '../utils/logger.utils.js';
  * Bootstraps all loaders and returns initialized components
  */
 export default async function initLoaders() {
-  logger.info('🚀 Bootstrapping application loaders...');
+  logger.debug('🚀 Bootstrapping application loaders...');
 
   try {
     // 1️⃣ Initialize Sequelize (DB + Models)
     await initModels();
     const db = getDB(); // confirm initialized
-    logger.info(
+    logger.debug(
       `✅ Models loaded: ${Object.keys(db)
         .filter((k) => k !== 'sequelize')
         .join(', ')}`
@@ -25,7 +25,7 @@ export default async function initLoaders() {
     // 3️⃣ Initialize Express app
     const app = await createExpressApp();
 
-    logger.info('✅ All loaders initialized successfully.');
+    logger.debug('✅ All loaders initialized successfully.');
 
     return { app, db };
   } catch (err) {

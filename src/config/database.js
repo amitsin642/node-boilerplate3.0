@@ -44,7 +44,7 @@ const sequelize = url
 export const connectDB = async (retries = 5, delay = 5000) => {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      logger.info(`⏳ Connecting to database (attempt ${attempt}/${retries})...`);
+      logger.debug(`⏳ Connecting to database (attempt ${attempt}/${retries})...`);
       await sequelize.authenticate();
       logger.info(`✅ Database connection established (${client})`);
       return;

@@ -17,10 +17,6 @@ export default async function createApp() {
     const duration = ((Date.now() - startTime) / 1000).toFixed(2);
     logger.info(`✅ Application initialized successfully in ${duration}s.`);
 
-    logger.info(`📦 App Name: ${config.appName}`);
-    logger.info(`🌍 Environment: ${config.env}`);
-    logger.info(`⚙️ Node.js Version: ${process.version}`);
-
     return app;
   } catch (err) {
     logger.error(`❌ Application failed to start: ${err.message}`, {

@@ -6,9 +6,9 @@ import morgan from 'morgan';
 
 import config from '../config/config.js';
 import { errorHandler, notFoundHandler } from '../middleware/errorHandler.middleware.js';
+import { rateLimitMiddleware } from '../middleware/rateLimit.middleware.js';
 import routes from '../routes/index.js';
 import logger from '../utils/logger.utils.js';
-import rateLimitMiddleware from '../middleware/rateLimit.middleware.js';
 
 export default async function createExpressApp() {
   const app = express();

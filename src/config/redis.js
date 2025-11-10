@@ -38,12 +38,12 @@ export const connectRedis = async () => {
      * 🔊 Event Listeners
      */
     redisClient.on('connect', () => logger.info('✅ Redis connection established.'));
-    redisClient.on('ready', () => logger.info('🚀 Redis client ready for commands.'));
+    redisClient.on('ready', () => logger.debug('🚀 Redis client ready for commands.'));
     redisClient.on('end', () => logger.warn('🔌 Redis connection closed.'));
     redisClient.on('reconnecting', () => logger.warn('♻️ Redis reconnecting...'));
     redisClient.on('error', (err) => logger.error(`❌ Redis error: ${err.message}`));
 
-    logger.info(
+    logger.debug(
       redis.url
         ? `⏳ Connecting to Redis via URL...`
         : `⏳ Connecting to Redis at ${redis.host}:${redis.port || 6379}...`
@@ -51,7 +51,7 @@ export const connectRedis = async () => {
 
     await redisClient.connect();
 
-    logger.info('✅ Redis connected and operational.');
+    logger.debug('✅ Redis connected and operational.');
     return redisClient;
   } catch (err) {
     logger.error(`❌ Failed to connect to Redis: ${err.message}`);
